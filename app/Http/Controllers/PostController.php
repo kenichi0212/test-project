@@ -67,7 +67,7 @@ class PostController extends Controller
             abort(403, 'この投稿を編集する権限がありません。');
         }
         
-        return view('posts.edit', $post);
+        return view('posts.edit', compact('post'));
     }
 
     /**
