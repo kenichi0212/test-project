@@ -14,7 +14,7 @@ class PostController extends Controller
     public function index()
     {
         //$posts = Post::all();
-        $posts = Post::paginate(10);
+        $posts = Post::orderBy('created_at', 'desc')->paginate(10);
         return view('post.index', compact('posts'));
     }
 
@@ -61,6 +61,11 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        // 投稿者以外は編集不可
+        if ($post->user_id !== Auth::id()) {
+            abort(403, 'この投稿を編集する権限がありません。');
+        }
+        
         return view('post.edit', compact('post'));
     }
 
@@ -69,13 +74,15 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        // 投稿者以外は更新不可
+        if ($post->user_id !== Auth::id()) {
+            abort(403, 'この投稿を更新する権限がありません。');
+        }
+        
         $validated = $request->validate([
             'title' => 'required|max:20',
             'body' => 'required|max:400',
         ]);
-
-        //ユーザーIDを追加
-        $validated['user_id'] = Auth::id();
 
         //投稿を更新
         $post->update($validated);
@@ -90,6 +97,10 @@ class PostController extends Controller
      */
     public function destroy(Request $request, Post $post)
     {
+        // 投稿者以外は削除不可
+        if ($post->user_id !== Auth::id()) {
+            abort(403, 'この投稿を削除する権限がありません。');
+        }
 
         $post->delete();
         $request->session()->flash('message', '削除しました');

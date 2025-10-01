@@ -1,43 +1,45 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        個別表示
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            個別表示
         </h2>
     </x-slot>
     <div class="mx-auto px-6">
-        @if(session('message'))
-            <div class="text-red-600 font-bold p-4">
-                {{session('message')}}
+        @if (session('message'))
+            <div class="p-4 font-bold text-red-600">
+                {{ session('message') }}
             </div>
         @endif
-        <div class="bg-white w-full round-2xl">
+        <div class="round-2xl w-full bg-white">
             <div class="mt-4 p-4">
                 <h1 class="text-lg font-semibold">
-                    {{ $post->title}}
+                    {{ $post->title }}
                 </h1>
-                <div class="text-right flex">
-                    <a href="{{route('post.edit', $post)}}" class="flex-1">
-                        <x-primary-button>
-                            編集
-                        </x-primary-button>
-                    </a>
+                @if ($post->user_id === Auth::id())
+                    <div class="flex text-right">
+                        <a href="{{ route('post.edit', $post) }}" class="flex-1">
+                            <x-primary-button>
+                                編集
+                            </x-primary-button>
+                        </a>
 
-                    <form method="post" action="{{route('post.destroy', $post)}}" class=flex-2>
-                        @csrf
-                        @method('delete')
-                        <x-primary-button class="bg-red-700 ml-2">
-                            削除
-                        </x-primary-button>
-                    </form>
-                </div>
+                        <form method="post" action="{{ route('post.destroy', $post) }}" class=flex-2>
+                            @csrf
+                            @method('delete')
+                            <x-primary-button class="ml-2 bg-red-700">
+                                削除
+                            </x-primary-button>
+                        </form>
+                    </div>
+                @endif
                 <hr class="w-full">
-                <p class="mt-4 whitespase-pre-line">
-                    {{$post->body}}
+                <p class="whitespase-pre-line mt-4">
+                    {{ $post->body }}
                 </p>
-                <div class="text-sm font-semibold flex flex-row-reverse">
-                    <p> {{$post->created_at}}</p>
+                <div class="flex flex-row-reverse text-sm font-semibold">
+                    <p> {{ $post->created_at }}</p>
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout>        
+</x-app-layout>
