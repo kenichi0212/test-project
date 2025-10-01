@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -15,7 +16,7 @@ class PostController extends Controller
     {
         //$posts = Post::all();
         $posts = Post::orderBy('created_at', 'desc')->paginate(10);
-        return view('post.index', compact('posts'));
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -23,7 +24,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('post.create');
+        return view('posts.create');
     }
 
     /**
@@ -45,7 +46,7 @@ class PostController extends Controller
 
         //セッションにメッセージを保存してリダイレクト
         $request->session()->flash('message', '保存しました！');
-        return redirect()->route('post.create');
+        return redirect()->route('posts.create');
     }
 
     /**
@@ -53,7 +54,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('post.show', compact('post'));
+        return view('posts.show', compact('post'));
     }
 
     /**
@@ -66,7 +67,7 @@ class PostController extends Controller
             abort(403, 'この投稿を編集する権限がありません。');
         }
         
-        return view('post.edit', compact('post'));
+        return view('posts.edit', $post);
     }
 
     /**
@@ -89,7 +90,7 @@ class PostController extends Controller
 
         //セッションにメッセージを保存してリダイレクト
         $request->session()->flash('message', '更新しました');
-        return redirect()->route('post.show', compact('post'));
+        return redirect()->route('posts.show', $post);
     }
 
     /**
@@ -104,6 +105,20 @@ class PostController extends Controller
 
         $post->delete();
         $request->session()->flash('message', '削除しました');
-        return redirect()->route('post.index');
+        return redirect()->route('posts.index');
+    }
+    
+    public function search(Request $request)
+    {
+        // 検索クエリ（URLの ?q=... 部分）を取得
+        $query = $request->input('q');
+
+        // Laravel Scoutの search() メソッドを使ってMeiliSearchに問い合わせ
+        $posts = Post::search($query)
+                     // ページネーションもそのまま使えます
+                     ->paginate(10); 
+
+        // 検索結果ビューに結果とクエリを渡す
+        return view('posts.search_results', compact('posts', 'query'));
     }
 }

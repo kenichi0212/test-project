@@ -17,13 +17,13 @@
                 </h1>
                 @if ($post->user_id === Auth::id())
                     <div class="flex text-right">
-                        <a href="{{ route('post.edit', $post) }}" class="flex-1">
+                        <a href="{{ route('posts.edit', $post) }}" class="flex-1">
                             <x-primary-button>
                                 編集
                             </x-primary-button>
                         </a>
 
-                        <form method="post" action="{{ route('post.destroy', $post) }}" class=flex-2>
+                        <form method="post" action="{{ route('posts.destroy', $post) }}" class=flex-2>
                             @csrf
                             @method('delete')
                             <x-primary-button class="ml-2 bg-red-700">

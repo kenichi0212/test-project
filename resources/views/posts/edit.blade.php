@@ -10,7 +10,7 @@
                 {{ session('message') }}
             </div>
         @endif
-        <form method="post" action="{{ route('post.update', $post) }}">
+        <form method="post" action="{{ route('posts.update', $post) }}">
             @csrf
             @method('patch')
             <div class="mt-8">

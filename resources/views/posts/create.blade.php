@@ -9,7 +9,7 @@
 
         <x-message :message="session('message')" />
 
-        <form method="post" action="{{ route('post.store') }}">
+        <form method="post" action="{{ route('posts.store') }}">
             @csrf
             <div class="mt-8">
                 <div class="flex w-full flex-col">

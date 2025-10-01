@@ -5,17 +5,17 @@
             <div class="flex items-center">
                 <!-- Logo -->
                 <div class="flex shrink-0 items-center">
-                    <a href=" {{ route('post.index') }} ">
+                    <a href=" {{ route('posts.index') }} ">
                         <x-application-logo width="100" class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden flex-grow justify-center space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')">
+                    <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
                         投稿一覧
                     </x-nav-link>
-                    <x-nav-link :href="route('post.create')" :active="request()->routeIs('post.create')">
+                    <x-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
                         新規作成
                     </x-nav-link>
                 </div>
@@ -78,10 +78,10 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="space-y-1 pb-3 pt-2">
-            <x-responsive-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')">
+            <x-responsive-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
                 投稿一覧
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('post.create')" :active="request()->routeIs('post.create')">
+            <x-responsive-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
                 新規作成
             </x-responsive-nav-link>
         </div>

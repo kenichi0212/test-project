@@ -10,11 +10,22 @@
                 {{ session('message') }}
             </div>
         @endif
+        <div class="mb-6 mt-4 flex justify-end">
+            <form action="{{ route('posts.search') }}" method="GET" class="mb-4 ml-auto flex items-center space-x-2">
+                <input type="text" name="q" placeholder="検索..." value="{{ request('q') }}"
+                    class="rounded-lg border border-gray-300 p-2 focus:border-indigo-500 focus:ring-indigo-500">
+
+                <button type="submit"
+                    class="rounded-lg bg-blue-700 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-indigo-700">
+                    検索
+                </button>
+            </form>
+        </div>
         @foreach ($posts as $post)
             <div class="mt-4 w-full rounded-2xl bg-white p-8">
                 <h1 class="p-4 text-lg font-semibold">
                     件名:
-                    <a href="{{ route('post.show', $post) }}" class="text-blue-600">
+                    <a href="{{ route('posts.show', $post) }}" class="text-blue-600">
                         {{ $post->title }}
                     </a>
                 </h1>
